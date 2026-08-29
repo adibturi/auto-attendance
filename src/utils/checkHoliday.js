@@ -11,10 +11,13 @@ module.exports = function checkHoliday() {
     const date = today.getDate();
 
     // 1. Cek Akhir Pekan (Sabtu = 6, Minggu = 0)
+    // KODE DI BAWAH DIMATIKAN SEMENTARA AGAR ANDA BISA MENGETESNYA DI HARI SABTU INI:
+    /*
     const isWeekend = today.getDay() === 0 || today.getDay() === 6;
     if (isWeekend) {
       return resolve(true);
     }
+    */
 
     // 2. Cek Libur Nasional via API Harilibur
     const url = `https://api-harilibur.vercel.app/api?month=${month}&year=${year}`;
