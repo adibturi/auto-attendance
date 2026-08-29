@@ -26,8 +26,16 @@ const LOGOUT_BOX = process.env.LOGOUT_BOX;
 const LOGOUT_BUTTON = process.env.LOGOUT_BUTTON;
 const CONFIRM_LOGOUT_BUTTON = process.env.CONFIRM_LOGOUT_BUTTON;
 
-if (!USERNAME || !PASSWORD || !WEBSITE_URL)
-  throw new Error("Isi environment variable yang wajib!");
+const missingVars = [];
+if (!USERNAME) missingVars.push("USERNAME");
+if (!PASSWORD) missingVars.push("PASSWORD");
+if (!WEBSITE_URL) missingVars.push("WEBSITE_URL");
+
+if (missingVars.length > 0) {
+  throw new Error(
+    `Isi environment variable yang wajib! Missing: ${missingVars.join(", ")}`
+  );
+}
 
 module.exports = {
   // Website URL
