@@ -54,6 +54,6 @@ jobs:
           # Optional Field, uncomment if needed
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           FORM_WRAPPER: ${{ secrets.FORM_WRAPPER }}
-          # INPUT_USERNAME: ${{ secrets.INPUT_USERNAME }}
-          # INPUT_PASSWORD: ${{ secrets.INPUT_PASSWORD }}
-          # BUTTON_SUBMIT: ${{ secrets.BUTTON_SUBMIT }}
+          INPUT_USERNAME: ${{ secrets.INPUT_USERNAME }}
+          INPUT_PASSWORD: ${{ secrets.INPUT_PASSWORD }}
+          BUTTON_SUBMIT: ${{ secrets.BUTTON_SUBMIT }}
