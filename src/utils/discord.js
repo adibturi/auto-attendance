@@ -25,5 +25,35 @@ if (WEBHOOK_URL) {
     hook.send(embed);
   };
 
-  module.exports = { successLogin, successLogout };
+  const holidayNotification = (date) => {
+    const embed = new MessageBuilder()
+      .setTitle("Absensi Dibatalkan")
+      .addField(
+        "Alasan",
+        "Hari ini adalah Hari Libur Nasional atau Akhir Pekan."
+      )
+      .setTimestamp(date);
+
+    hook.send(embed);
+  };
+
+  const alreadyAbsenNotification = (date, isMasuk) => {
+    const embed = new MessageBuilder()
+      .setTitle("Absensi")
+      .addField(
+        "Status Absensi",
+        `Sudah melakukan absen ${isMasuk ? "masuk" : "keluar"} sebelumnya!`
+      )
+      .addField("Halaman Website", WEBSITE_URL)
+      .setTimestamp(date);
+
+    hook.send(embed);
+  };
+
+  module.exports = {
+    successLogin,
+    successLogout,
+    holidayNotification,
+    alreadyAbsenNotification,
+  };
 }

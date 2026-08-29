@@ -8,6 +8,7 @@ const path = require("path");
     console.log(
       "[INFO] Hari ini adalah Hari Libur Nasional / Akhir Pekan! Membatalkan eksekusi bot absensi."
     );
+    if (credentials.WEBHOOK_URL) discord.holidayNotification(new Date());
     return;
   }
   const bot = await _botBuilder();
@@ -21,46 +22,66 @@ const path = require("path");
   await page.waitForTimeout(5000);
 
   chalk.infoFN("Masuk ke menu Manajemen Tenaga Kerja...");
-  await page.evaluate(() => {
-    const el = document.evaluate(
-      '//*[contains(text(), "Manajemen Tenaga Kerja")]',
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
-    if (el) el.click();
-  });
+  await page
+    .evaluate(() => {
+      const el = document.evaluate(
+        '//*[contains(text(), "Manajemen Tenaga Kerja")]',
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      ).singleNodeValue;
+      if (el) el.click();
+    })
+    .catch(() => {});
 
   chalk.infoFN("Menunggu 5 detik...");
   await page.waitForTimeout(5000);
 
   chalk.infoFN("Masuk ke menu Kehadiran Online...");
-  await page.evaluate(() => {
-    const el = document.evaluate(
-      '//*[contains(text(), "Kehadiran Online")]',
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
-    if (el) el.click();
-  });
+  await page
+    .evaluate(() => {
+      const el = document.evaluate(
+        '//*[contains(text(), "Kehadiran Online")]',
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      ).singleNodeValue;
+      if (el) el.click();
+    })
+    .catch(() => {});
 
   chalk.infoFN("Menunggu 10 detik untuk GPS dan Kamera...");
   await page.waitForTimeout(10000);
 
   chalk.infoFN("Menekan tombol PULANG (Membuka Popup)...");
-  await page.evaluate(() => {
-    const btn = document.evaluate(
-      '//button[contains(text(), "Pulang")]',
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
-    if (btn) btn.click();
-  });
+  const isPulangClicked = await page
+    .evaluate(() => {
+      const btn = document.evaluate(
+        '//button[contains(text(), "Pulang")]',
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      ).singleNodeValue;
+      if (btn) {
+        btn.click();
+        return true;
+      }
+      return false;
+    })
+    .catch(() => false);
+
+  if (!isPulangClicked) {
+    chalk.infoFN(
+      "Tombol PULANG tidak ditemukan. Sepertinya sudah absen keluar!"
+    );
+    if (credentials.WEBHOOK_URL)
+      discord.alreadyAbsenNotification(new Date(), false);
+    await bot.browser.close();
+    return;
+  }
 
   chalk.infoFN("Menekan area 'Ambil Swafoto' untuk menghidupkan kamera...");
   await page.waitForTimeout(2000); // Tunggu animasi popup
