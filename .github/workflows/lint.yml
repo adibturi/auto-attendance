@@ -11,14 +11,14 @@ jobs:
     name: Check if the file passed the linting
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup NodeJS 16
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - name: Setup NodeJS 18
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
@@ -46,7 +46,7 @@ jobs:
           fail-on-warning: true
 
       - name: Upload ESLint report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: eslint_report.json
           path: eslint_report.json
