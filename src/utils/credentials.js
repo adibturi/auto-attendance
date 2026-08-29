@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ override: true });
 
 const WEBSITE_URL = process.env.WEBSITE_URL;
 
@@ -6,16 +6,21 @@ const USERNAME = process.env.USERNAME;
 const PASSWORD = process.env.PASSWORD;
 const WEBHOOK_URL = process.env.WEBHOOK_URL || null;
 
+const LATITUDE = process.env.LATITUDE || null;
+const LONGITUDE = process.env.LONGITUDE || null;
+const FAKE_WEBCAM_VIDEO_PATH = process.env.FAKE_WEBCAM_VIDEO_PATH || null;
+const FAKE_WEBCAM_IMAGE_PATH = process.env.FAKE_WEBCAM_IMAGE_PATH || null;
+
 const FORM_WRAPPER = process.env.FORM_WRAPPER || "body";
 const INPUT_USERNAME = process.env.INPUT_USERNAME || 'input[type="text"]';
 const INPUT_PASSWORD = process.env.INPUT_PASSWORD || 'input[type="password"]';
 const BUTTON_SUBMIT = process.env.BUTTON_SUBMIT || 'button[type="submit"]';
 
-const indicator = process.env.SUCCESS_INDICATOR_ELEMENTS;
+const indicator = process.env.SUCCESS_INDICATOR_ELEMENTS || "body";
 
 const SUCCESS_INDICATOR_ELEMENTS = indicator.includes(",")
   ? indicator.split(",").map((el) => el.trim())
-  : [indicator.trim()] || ["body"];
+  : [indicator.trim()];
 
 const LOGOUT_BOX = process.env.LOGOUT_BOX;
 const LOGOUT_BUTTON = process.env.LOGOUT_BUTTON;
@@ -34,6 +39,12 @@ module.exports = {
 
   // Discord webhook url
   WEBHOOK_URL,
+
+  // Location & Camera
+  LATITUDE,
+  LONGITUDE,
+  FAKE_WEBCAM_VIDEO_PATH,
+  FAKE_WEBCAM_IMAGE_PATH,
 
   // Login elements
   FORM_WRAPPER,

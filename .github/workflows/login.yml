@@ -2,12 +2,12 @@ name: Menjalankan bot absensi masuk otomatis
 
 on:
   schedule:
-    # Menjalankan cron job setiap pukul 6.40 pagi WIB
+    # Menjalankan cron job setiap pukul 3.00 pagi WIB
     # Dari hari Senin sampai Jum'at, Disini di set
-    # 23:40 karena zona waktu yang dipakai github action
+    # 20:00 karena zona waktu yang dipakai github action
     # adalah zona waktu UTC, atur sesuai jam yang diinginkan
     # dan sesuai dengan zona waktumu
-    - cron: "40 23 * * 0-4"
+    - cron: "0 20 * * 0-4"
   workflow_dispatch:
 
 jobs:
@@ -35,15 +35,21 @@ jobs:
       - name: Install Node Dependencies
         run: npm install
 
+      - name: Setup Xvfb (Virtual Display untuk bypass Cloudflare)
+        run: sudo apt-get install xvfb
+
       - name: Waktunya absen masuk
-        run: npm run login
+        run: xvfb-run --auto-servernum npm run login
         env:
           SUCCESS_INDICATOR_ELEMENTS: ${{ secrets.SUCCESS_INDICATOR_ELEMENTS }}
 
           # Required Field
           WEBSITE_URL: ${{ secrets.WEBSITE_URL }}
+          FAKE_WEBCAM_IMAGE_PATH: ./assets/foto-saya.jpeg
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          LATITUDE: ${{ secrets.LATITUDE }}
+          LONGITUDE: ${{ secrets.LONGITUDE }}
 
           # Optional Field, uncomment if needed
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
