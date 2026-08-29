@@ -11,6 +11,8 @@ module.exports = async () => {
   const args = [
     "--use-fake-ui-for-media-stream",
     "--use-fake-device-for-media-stream",
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
   ];
 
   if (credentials.FAKE_WEBCAM_VIDEO_PATH) {
