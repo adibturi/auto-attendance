@@ -33,10 +33,10 @@ module.exports = async (page, chalk) => {
   } catch (e) {}
 
   await Promise.all([
-    page.waitForSelector(FORM_WRAPPER),
-    page.waitForSelector(INPUT_USERNAME),
-    page.waitForSelector(INPUT_PASSWORD),
-    page.waitForSelector(BUTTON_SUBMIT),
+    page.waitForSelector(FORM_WRAPPER, { timeout: 60000 }),
+    page.waitForSelector(INPUT_USERNAME, { timeout: 60000 }),
+    page.waitForSelector(INPUT_PASSWORD, { timeout: 60000 }),
+    page.waitForSelector(BUTTON_SUBMIT, { timeout: 60000 }),
   ]);
   chalk.infoFN("Dialog login ditemukan, menulis username dan password");
 
